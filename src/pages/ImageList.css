@@ -1,3 +1,7 @@
+.image-list-container{
+    margin: 50px 0;
+}
+
 .image-list-container .box-images {
     width: 100%;
     max-width: 1080px;
