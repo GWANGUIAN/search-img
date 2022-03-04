@@ -1,0 +1,32 @@
+.img-box-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 220px;
+    height: 250px;
+    margin: 0 auto;
+}
+
+.img-box-container img{
+    object-fit: cover;
+    width: 220px;
+    height: 220px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.img-box-container .info-img{
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.img-box-container .info-img .icon-like{
+    color:rgb(228, 101, 129);
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.img-box-container .info-img .num-likes{
+    margin-left: 5px;
+}
