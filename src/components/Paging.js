@@ -1,10 +1,19 @@
-import React from 'react'
-import './Paging.css';
+import React from "react";
+import "./Paging.css";
+import Pagination from "react-js-pagination";
 
-function Paging() {
+function Paging({page, setPage, count}) {
   return (
     <div className="paging-container">
-        Paging
+      <Pagination
+        activePage={page}
+        itemsCountPerPage={10}
+        totalItemsCount={count}
+        pageRangeDisplayed={5}
+        prevPageText={"‹"}
+        nextPageText={"›"}
+        onChange={setPage}
+      />
     </div>
   );
 }
