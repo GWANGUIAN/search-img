@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./SearchBar.css";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,21 +9,36 @@ function SearchBar({ searchWord, setSerachWord }) {
   const navigate = useNavigate();
   const [autoCompleteData, setData, deleteData] = useAutoComplete();
   const [focus, setFocus] = useState(false);
+  const inputRef = useRef();
 
   const handleSearch = () => {
     if (searchWord === "") {
       navigate(`/`);
     } else {
       setData(searchWord);
+      setSerachWord(searchWord);
+      setFocus(false);
+      document.activeElement.blur()
       navigate(`/search/${searchWord}`, { replace: true });
     }
   };
+
+  const handleClickOutside = ({ target }) => {
+    if (!inputRef.current.contains(target)) setFocus(false);
+  };
+
+  useEffect(() => {
+    window.addEventListener("click", handleClickOutside);
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   return (
     <header className="search-bar-container">
       <h1 id="text-title">SearchImg</h1>
       <div className="box-position">
-        <div className="box-input">
+        <div className="box-input" ref={inputRef}>
           <div className={focus ? "inner-box-input focus" : "inner-box-input"}>
             <input
               className="input-search"
@@ -39,9 +54,6 @@ function SearchBar({ searchWord, setSerachWord }) {
               onFocus={() => {
                 setFocus(true);
               }}
-              onBlur={() => {
-                setFocus(false);
-              }}
             />
 
             <FontAwesomeIcon
@@ -55,13 +67,16 @@ function SearchBar({ searchWord, setSerachWord }) {
               {autoCompleteData.map((el, id) => {
                 return (
                   <li className="list-auto" key={id}>
-                    <span>{el}</span>
+                    <span onMouseDown={() => {
+                      setSerachWord(el)
+                      navigate(`/search/${el}`, { replace: true });
+                      setFocus(false)
+                    }}>{el}</span>
                     <FontAwesomeIcon
                       className="icon-delete"
                       icon={faXmark}
-                      onMouseDown={async () => {
-                        await deleteData(id);
-                        await setFocus(true);
+                      onMouseDown={() => {
+                        deleteData(id);
                       }}
                     />
                   </li>
