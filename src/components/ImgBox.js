@@ -1,14 +1,41 @@
 import React from "react";
-import axios from 'axios';
+import axios from "axios";
 import "./ImgBox.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as like } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as unLike } from "@fortawesome/free-regular-svg-icons";
 
-function ImgBox({ data }) {
+function ImgBox({ data, getNewData, alertAuth }) {
+  const submitLike = () => {
+    const token = localStorage.getItem("userAccessToken")
+    if(token) {
+      axios.post(`https://api.unsplash.com/photos/${data.id}/like`, null, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("userAccessToken")
+        },
+      }).then(()=>{
+        getNewData()
+      });
+    } else {
+      alertAuth()
+    }
 
-  const submitLike = (id) => {
-  }
+  };
+
+  const cancelLike = () => {
+    const token = localStorage.getItem("userAccessToken")
+    if(token) {
+      axios.delete(`https://api.unsplash.com/photos/${data.id}/like`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("userAccessToken")
+        }
+      }).then(()=>{
+        getNewData()
+      });
+    } else {
+      alertAuth()
+    }
+  };
 
   return (
     <div className="img-box-container">
@@ -17,9 +44,9 @@ function ImgBox({ data }) {
       </a>
       <div className="info-img">
         {data.liked_by_user ? (
-          <FontAwesomeIcon className="icon-like" icon={like} />
+          <FontAwesomeIcon className="icon-like" icon={like} onClick={cancelLike}/>
         ) : (
-          <FontAwesomeIcon className="icon-like" icon={unLike} />
+          <FontAwesomeIcon className="icon-like" icon={unLike} onClick={submitLike}/>
         )}
         <span className="num-likes">{data.likes}</span>
       </div>

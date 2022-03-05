@@ -36,7 +36,7 @@ function SearchBar({ searchWord, setSerachWord }) {
 
   return (
     <header className="search-bar-container">
-      <h1 id="text-title">SearchImg</h1>
+      <h1 id="text-title" onClick={()=>{window.location.replace('/')}}>SearchImg</h1>
       <div className="box-position">
         <div className="box-input" ref={inputRef}>
           <div className={focus ? "inner-box-input focus" : "inner-box-input"}>

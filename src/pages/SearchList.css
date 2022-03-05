@@ -14,3 +14,13 @@
     align-items: center;
     justify-content: center;
 }
+
+.search-list-container #text-none{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+    margin: 80px 0;
+    color: rgb(139, 139, 139);
+    font-size: 1.1em;
+}

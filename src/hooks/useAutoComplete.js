@@ -2,7 +2,6 @@ import { useState } from "react";
 
 const useAutoComplete = () => {
   const localData = JSON.parse(localStorage.getItem("autoCompleteData")) || [];
-  console.log(localData);
   const [autoCompleteData, setAutoCompleteData] = useState(localData);
   const setData = (word) => {
     const newData = [...new Set([...autoCompleteData, word])];

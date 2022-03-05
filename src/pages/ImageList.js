@@ -1,14 +1,27 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import "./ImageList.css";
 import {defalut} from "../dummyData";
 import ImgBox from "../components/ImgBox";
+import { getData } from '../utils/getData';
 
-function ImageList() {
+function ImageList({alertAuth}) {
+
+  const [imgData, setImgData] = useState([])
+
+  const getNewData = async() => {
+    const data = await getData()
+    setImgData(data)
+  }
+
+  useEffect(()=>{
+    getNewData()
+  },[])
+
   return (
     <section className="image-list-container">
       <div className="box-images">
-        {defalut.map((el,id) => {
-          return <ImgBox data={el} key={id}/>;
+        {imgData.map((el,id) => {
+          return <ImgBox alertAuth={alertAuth} getNewData={getNewData} data={el} key={id}/>;
         })}
       </div>
     </section>
