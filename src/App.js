@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import "./App.css";
@@ -15,11 +15,11 @@ function App() {
   const [isLoading, setIsLoading] = useState(false)
   const [modal, setModal] = useState(false)
 
-  const getToken = useCallback(async() => {
+  const getToken = () => {
     const code = location.search.split("=")[1];
     if(code) {
-      await setIsLoading(true)
-      await axios
+      setIsLoading(true)
+      axios
       .post(`https://unsplash.com/oauth/token`, null, {
         params: {
           client_id: process.env.REACT_APP_ACCESS_KEY,
@@ -34,10 +34,10 @@ function App() {
         navigate("/")
         
       })
-      .catch((err) => console.log(err));
-      await setIsLoading(false)
+      .catch((err) => console.log(err))
+      .finally(()=>{setIsLoading(false)})
     }
-  }, [location]);
+  }
 
   const alertAuth = () => {
     setModal(true);
@@ -48,7 +48,7 @@ function App() {
 
   useEffect(() => {
     getToken();
-  }, [getToken]);
+  }, []);
   const [searchWord, setSerachWord] = useState('');
 
   return (
