@@ -39,7 +39,7 @@ function SearchBar({ searchWord, setSerachWord }) {
       <h1 id="text-title" onClick={()=>{window.location.replace('/')}}>SearchImg</h1>
       <div className="box-position">
         <div className="box-input" ref={inputRef}>
-          <div className={focus ? "inner-box-input focus" : "inner-box-input"}>
+          <div className={focus&& autoCompleteData.length!==0 ? "inner-box-input focus" : "inner-box-input"}>
             <input
               className="input-search"
               value={searchWord}
@@ -62,7 +62,7 @@ function SearchBar({ searchWord, setSerachWord }) {
               onClick={handleSearch}
             />
           </div>
-          {focus && (
+          {focus && autoCompleteData.length!==0&& (
             <ul className="box-auto">
               {autoCompleteData.map((el, id) => {
                 return (
