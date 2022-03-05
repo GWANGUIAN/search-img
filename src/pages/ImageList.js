@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react";
 import "./ImageList.css";
-import {defalut} from "../dummyData";
 import ImgBox from "../components/ImgBox";
 import { getData } from '../utils/getData';
 
