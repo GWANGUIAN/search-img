@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useParams } from "react-router";
 import "./SearchBar.css";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faXmark } from "@fortawesome/free-solid-svg-icons";
 import useAutoComplete from "../hooks/useAutoComplete";
 
-function SearchBar({ searchWord, setSerachWord }) {
+function SearchBar({ searchWord, setSearchWord }) {
   const navigate = useNavigate();
+  const { word } = useParams();
   const [autoCompleteData, setData, deleteData] = useAutoComplete();
   const [focus, setFocus] = useState(false);
   const inputRef = useRef();
@@ -16,7 +18,7 @@ function SearchBar({ searchWord, setSerachWord }) {
       navigate(`/`);
     } else {
       setData(searchWord);
-      setSerachWord(searchWord);
+      setSearchWord(searchWord);
       setFocus(false);
       document.activeElement.blur()
       navigate(`/search/${searchWord}`, { replace: true });
@@ -28,6 +30,9 @@ function SearchBar({ searchWord, setSerachWord }) {
   };
 
   useEffect(() => {
+    if(word) {
+      setSearchWord(word)
+    }
     window.addEventListener("click", handleClickOutside);
     return () => {
       window.removeEventListener("click", handleClickOutside);
@@ -44,7 +49,7 @@ function SearchBar({ searchWord, setSerachWord }) {
               className="input-search"
               value={searchWord}
               onChange={(e) => {
-                setSerachWord(e.target.value);
+                setSearchWord(e.target.value);
               }}
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
@@ -68,7 +73,7 @@ function SearchBar({ searchWord, setSerachWord }) {
                 return (
                   <li className="list-auto" key={id}>
                     <span onMouseDown={() => {
-                      setSerachWord(el)
+                      setSearchWord(el)
                       navigate(`/search/${el}`, { replace: true });
                       setFocus(false)
                     }}>{el}</span>
