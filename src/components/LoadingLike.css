@@ -9,7 +9,7 @@
   text-align: center;
 }
 
-.loading-like-container img {
+.loading-like-container img.loading {
   position: absolute;
   top: 50%;
   left: 50%;

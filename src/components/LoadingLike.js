@@ -5,6 +5,7 @@ function LoadingLike() {
   return (
     <div className="loading-like-container">
       <img
+      className='loading'
         src="img/loading.svg"
         onError={(e) => {
           e.target.onerror = null;
