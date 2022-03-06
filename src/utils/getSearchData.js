@@ -1,61 +1,40 @@
-import axios from "axios";
-import { cacheAdapterEnhancer, throttleAdapterEnhancer } from "axios-extensions";
+import { setup } from "axios-cache-adapter";
 
-const instance = axios.create({
-  baseURL: "/",
+const localToken = localStorage.getItem("userAccessToken") || false;
+
+const api = setup({
+  baseURL: "https://api.unsplash.com",
   Accept: "application/json",
-  headers: { "Cache-Control": "no-cache" },
-  adapter: throttleAdapterEnhancer(axios.defaults.adapter, {
-    threshold: 1000 * 60 * 10,
-  }),
+  headers: {
+    "Cache-Control": "no-cache",
+    Authorization: localToken
+      ? "Bearer " + localToken
+      : "Client-ID " + process.env.REACT_APP_ACCESS_KEY,
+  },
+  cache: {
+    maxAge: 10 * 60 * 1000,
+    invalidate: async (config, request) => {
+      if (request.clearCacheEntry) {
+        await config.store.removeItem(config.uuid);
+      }
+    },
+    exclude: { query: false },
+  },
 });
 
-const force = axios.create({
-    baseURL: '/',
-    Accept: 'application/json',
-    headers: { 'Cache-Control': 'no-cache' },
-    adapter: cacheAdapterEnhancer(
-        axios.defaults.adapter,
-      { enabledByDefault: false }
-    ),
-    });
-
 export const getSerachData = async (query, page = 1, forceUpdate = false) => {
-  const localToken = localStorage.getItem("userAccessToken") || false;
-    const response = await instance.get(
-      `https://api.unsplash.com/search/photos`,
-      {
-        forceUpdate,
-        cache: true,
-        headers: {
-            Authorization: localToken
-              ? "Bearer " + localToken
-              : "Client-ID " + process.env.REACT_APP_ACCESS_KEY,
-          },
-        params: {
-          query,
-          page,
-        },
-      }
+
+
+  if (forceUpdate) {
+    const response = await api.get(
+      `/search/photos?query=${query}&page=${page}`,
+      { clearCacheEntry: true }
     );
     return response.data;
+  } else {
+    const response = await api.get(
+      `/search/photos?query=${query}&page=${page}`
+    );
+    return response.data;
+  }
 };
-
-export const getSerachDataForce = async (query, page = 1) => {
-    const localToken = localStorage.getItem("userAccessToken") || false;
-      const response = await force.get(
-        `https://api.unsplash.com/search/photos`,
-        {
-          forceUpdate : true,
-          cache: true,
-          headers: {
-              Authorization: "Bearer " + localToken
-            },
-          params: {
-            query,
-            page,
-          },
-        }
-      );
-      return response.data;
-  };

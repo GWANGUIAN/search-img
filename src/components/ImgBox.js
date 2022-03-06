@@ -46,7 +46,7 @@ function ImgBox({ data, getNewData, alertAuth }) {
         {data.liked_by_user ? (
           <FontAwesomeIcon className="icon-like" icon={like} onClick={cancelLike}/>
         ) : (
-          <FontAwesomeIcon className="icon-like" icon={unLike} onClick={submitLike}/>
+          <FontAwesomeIcon className="icon-unlike" icon={unLike} onClick={submitLike}/>
         )}
         <span className="num-likes">{data.likes}</span>
       </div>

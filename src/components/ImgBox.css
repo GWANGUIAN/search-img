@@ -32,6 +32,17 @@
     cursor: pointer;
 }
 
+
+.img-box-container .info-img .icon-unlike{
+    color:rgb(83, 83, 83);
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.img-box-container .info-img .icon-unlike:hover{
+    color:rgb(146, 146, 146);
+}
+
 .img-box-container .info-img .num-likes{
     margin-left: 5px;
 }

@@ -20,10 +20,27 @@ function NavBar() {
           href={`https://unsplash.com/oauth/authorize?client_id=${process.env.REACT_APP_ACCESS_KEY}&redirect_uri=${process.env.REACT_APP_CLIENT_URI}&response_type=code&scope=public+write_likes`}
           id="btn-token"
         >
-          유저 인증
+          인증 하기
         </a>
       ) : isAuthorized === 1 ? (
-        <div id="complete-token">인증 완료</div>
+        <div
+          id="btn-delete-token"
+          onClick={() => {
+            localStorage.removeItem("userAccessToken");
+            caches
+              .keys()
+              .then((c) => {
+                for (const i of c) {
+                  caches.delete(i);
+                }
+              })
+              .then(() => {
+                window.location.reload(true);
+              });
+          }}
+        >
+          인증 취소
+        </div>
       ) : (
         ""
       )}

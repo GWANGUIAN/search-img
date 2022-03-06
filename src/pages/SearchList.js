@@ -4,9 +4,9 @@ import "./SearchList.css";
 import ImgBox from "../components/ImgBox";
 import Paging from "../components/Paging";
 import Loading from "../components/Loading";
-import { getSerachData, getSerachDataForce } from "../utils/getSearchData";
+import { getSerachData } from "../utils/getSearchData";
 
-function SearchList({alertAuth}) {
+function SearchList({ alertAuth }) {
   const { word } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -28,7 +28,7 @@ function SearchList({alertAuth}) {
   };
 
   const getNewData = async () => {
-    const data = await getSerachDataForce(word, page);
+    const data = await getSerachData(word, page, true);
     setSearchData(data);
   };
 
@@ -45,11 +45,18 @@ function SearchList({alertAuth}) {
       {isLoading ? (
         <Loading />
       ) : searchData.results.length === 0 ? (
-        <div id='text-none'>일치하는 이미지가 없습니다.</div>
+        <div id="text-none">일치하는 이미지가 없습니다.</div>
       ) : (
         <div className="box-images">
           {searchData.results.map((el, id) => {
-            return <ImgBox alertAuth={alertAuth} getNewData={getNewData} data={el} key={id} />;
+            return (
+              <ImgBox
+                alertAuth={alertAuth}
+                getNewData={getNewData}
+                data={el}
+                key={id}
+              />
+            );
           })}
         </div>
       )}
