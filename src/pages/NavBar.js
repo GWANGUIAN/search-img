@@ -20,7 +20,7 @@ function NavBar() {
           href={`https://unsplash.com/oauth/authorize?client_id=${process.env.REACT_APP_ACCESS_KEY}&redirect_uri=${process.env.REACT_APP_CLIENT_URI}&response_type=code&scope=public+write_likes`}
           id="btn-token"
         >
-          인증 하기
+          토큰 발급
         </a>
       ) : isAuthorized === 1 ? (
         <div
@@ -39,7 +39,7 @@ function NavBar() {
               });
           }}
         >
-          인증 취소
+          토큰 삭제
         </div>
       ) : (
         ""
