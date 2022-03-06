@@ -46,7 +46,7 @@ function ImageList({ alertAuth }) {
           })}
         </div>
       )}
-      {isLoadingLike && <LoadingLike />}
+      <LoadingLike isLoadingLike={isLoadingLike}/>
     </section>
   );
 }

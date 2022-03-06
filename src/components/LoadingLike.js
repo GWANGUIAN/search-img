@@ -1,9 +1,9 @@
 import React from "react";
 import "./LoadingLike.css";
 
-function LoadingLike() {
+function LoadingLike({isLoadingLike}) {
   return (
-    <div className="loading-like-container">
+    <div className="loading-like-container" style={{display : isLoadingLike ? '' : 'none'}}>
       <img
         src="img/loading.svg"
         onError={(e) => {

@@ -66,7 +66,7 @@ function SearchList({ alertAuth }) {
       )}
 
       <Paging page={page} setPage={setPage} count={searchData.total} />
-      {isLoadingLike && <LoadingLike />}
+      <LoadingLike isLoadingLike={isLoadingLike}/>
     </section>
   );
 }
