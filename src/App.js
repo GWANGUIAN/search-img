@@ -38,7 +38,7 @@ function App() {
           }  
         })  
         .then(() => {  
-          location.replace('/'); 
+          window.location.replace('/'); 
         });  
       })
       .catch((err) => console.log(err))

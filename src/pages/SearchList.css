@@ -1,4 +1,5 @@
 .search-list-container{
+    position: relative;
 }
 
 .search-list-container .box-images {

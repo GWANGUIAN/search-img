@@ -37,6 +37,7 @@
   border: 3px solid rgb(214, 214, 214);
   background-color: white;
   border-radius: 30px;
+  z-index: 1;
 }
 
 .search-bar-container .inner-box-input {

@@ -4,11 +4,13 @@ import "./SearchList.css";
 import ImgBox from "../components/ImgBox";
 import Paging from "../components/Paging";
 import Loading from "../components/Loading";
-import { getSerachData } from "../utils/getSearchData";
+import LoadingLike from '../components/LoadingLike';
+import getSerachData from "../utils/getSearchData";
 
 function SearchList({ alertAuth }) {
   const { word } = useParams();
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingLike, setIsLoadingLike] = useState(false);
   const [page, setPage] = useState(1);
   const [searchData, setSearchData] = useState({ results: [] });
 
@@ -30,6 +32,7 @@ function SearchList({ alertAuth }) {
   const getNewData = async () => {
     const data = await getSerachData(word, page, true);
     setSearchData(data);
+    setIsLoadingLike(false)
   };
 
   useEffect(() => {
@@ -53,6 +56,7 @@ function SearchList({ alertAuth }) {
               <ImgBox
                 alertAuth={alertAuth}
                 getNewData={getNewData}
+                setIsLoadingLike={setIsLoadingLike}
                 data={el}
                 key={id}
               />
@@ -62,6 +66,7 @@ function SearchList({ alertAuth }) {
       )}
 
       <Paging page={page} setPage={setPage} count={searchData.total} />
+      {isLoadingLike && <LoadingLike />}
     </section>
   );
 }

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getData = async () => {
+const getDataList = async () => {
   const localToken = localStorage.getItem("userAccessToken") || false;
   const response = await axios.get(`https://api.unsplash.com//photos`, {
     headers: {
@@ -11,3 +11,5 @@ export const getData = async () => {
   });
   return response.data;
 };
+
+export default getDataList

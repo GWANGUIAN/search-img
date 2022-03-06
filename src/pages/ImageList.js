@@ -1,28 +1,52 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "./ImageList.css";
 import ImgBox from "../components/ImgBox";
-import { getData } from '../utils/getData';
+import Loading from "../components/Loading";
+import LoadingLike from "../components/LoadingLike";
+import getDataList from "../utils/getDataList";
 
-function ImageList({alertAuth}) {
+function ImageList({ alertAuth }) {
+  const [imgData, setImgData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingLike, setIsLoadingLike] = useState(false);
 
-  const [imgData, setImgData] = useState([])
+  const getData = async () => {
+    setIsLoading(true);
+    const data = await getDataList();
+    setImgData(data);
+    setIsLoading(false);
+  };
 
-  const getNewData = async() => {
-    const data = await getData()
-    setImgData(data)
-  }
+  const getNewData = async () => {
+    const data = await getDataList();
+    setImgData(data);
+    setIsLoadingLike(false)
+  };
 
-  useEffect(()=>{
-    getNewData()
-  },[])
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <section className="image-list-container">
-      <div className="box-images">
-        {imgData.map((el,id) => {
-          return <ImgBox alertAuth={alertAuth} getNewData={getNewData} data={el} key={id}/>;
-        })}
-      </div>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <div className="box-images">
+          {imgData.map((el, id) => {
+            return (
+              <ImgBox
+                alertAuth={alertAuth}
+                getNewData={getNewData}
+                setIsLoadingLike={setIsLoadingLike}
+                data={el}
+                key={id}
+              />
+            );
+          })}
+        </div>
+      )}
+      {isLoadingLike && <LoadingLike />}
     </section>
   );
 }

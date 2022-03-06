@@ -22,7 +22,7 @@ const api = setup({
   },
 });
 
-export const getSerachData = async (query, page = 1, forceUpdate = false) => {
+const getSerachData = async (query, page = 1, forceUpdate = false) => {
 
 
   if (forceUpdate) {
@@ -38,3 +38,5 @@ export const getSerachData = async (query, page = 1, forceUpdate = false) => {
     return response.data;
   }
 };
+
+export default getSerachData

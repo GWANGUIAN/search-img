@@ -1,5 +1,6 @@
 .image-list-container{
     margin: 50px 0;
+    position: relative;
 }
 
 .image-list-container .box-images {
