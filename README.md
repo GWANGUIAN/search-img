@@ -58,5 +58,11 @@ Unsplash api를 활용한 이미지 검색 서비스
 
 <br/>
 
-## 배포링크
+## 사용 스택
+
+![SearchImg](https://user-images.githubusercontent.com/85675881/157156469-b668f8e5-63bb-4d99-ad83-57218e13a1f7.png)
+
+<br/>
+
+## 배포 링크
 [SearchImg](https://fakesearch.link)(https://search-img-tau.vercel.app/)
