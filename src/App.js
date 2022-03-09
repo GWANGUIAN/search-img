@@ -7,13 +7,13 @@ import ImageList from "./pages/ImageList";
 import SearchList from "./pages/SearchList";
 import NavBar from "./pages/NavBar";
 import Authorization from "./pages/Authorization";
-import ModalAuth from "./components/ModalAuth";
+import AlertAuth from "./components/AlertAuth";
 import NotFound from "./pages/NotFound";
 
 function App() {
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
-  const [modal, setModal] = useState(false);
+  const [alert, setAlert] = useState(false);
 
   const getToken = (code) => {
     setIsLoading(true);
@@ -29,16 +29,7 @@ function App() {
       })
       .then((res) => {
         localStorage.setItem("userAccessToken", res.data.access_token);
-        caches
-          .keys()
-          .then((c) => {
-            for (const i of c) {
-              caches.delete(i);
-            }
-          })
-          .then(() => {
-            window.location.replace("/");
-          });
+        window.location.replace("/");
       })
       .catch((err) => console.log(err))
       .finally(() => {
@@ -47,9 +38,9 @@ function App() {
   };
 
   const alertAuth = () => {
-    setModal(true);
+    setAlert(true);
     setTimeout(() => {
-      setModal(false);
+      setAlert(false);
     }, 1000);
   };
 
@@ -78,7 +69,7 @@ function App() {
             <SearchBar searchWord={searchWord} setSearchWord={setSearchWord} />
           }
         />
-                <Route
+        <Route
           path="*"
           element={
             <SearchBar searchWord={searchWord} setSearchWord={setSearchWord} />
@@ -94,7 +85,7 @@ function App() {
         <Route path="/authorization" element={<Authorization />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {modal && <ModalAuth modal={modal} />}
+      {alert && <AlertAuth alert={alert} />}
     </div>
   );
 }

@@ -27,16 +27,7 @@ function NavBar() {
           id="btn-delete-token"
           onClick={() => {
             localStorage.removeItem("userAccessToken");
-            caches
-              .keys()
-              .then((c) => {
-                for (const i of c) {
-                  caches.delete(i);
-                }
-              })
-              .then(() => {
-                window.location.reload(true);
-              });
+            window.location.reload(true);
           }}
         >
           토큰 삭제

@@ -3,8 +3,7 @@ import { useParams } from "react-router";
 import "./SearchList.css";
 import ImgBox from "../components/ImgBox";
 import Paging from "../components/Paging";
-import Loading from "../components/Loading";
-import LoadingLike from '../components/LoadingLike';
+import { Loading, LoadingLike } from "../components/Loading";
 import getSerachData from "../utils/getSearchData";
 
 function SearchList({ alertAuth }) {
@@ -32,7 +31,7 @@ function SearchList({ alertAuth }) {
   const getNewData = async () => {
     const data = await getSerachData(word, page, true);
     setSearchData(data);
-    setIsLoadingLike(false)
+    setIsLoadingLike(false);
   };
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 import React from "react";
 import "./Loading.css";
 
-function Loading() {
+export function Loading() {
   return (
     <div className="loading-container">
       <img
@@ -16,4 +16,17 @@ function Loading() {
   );
 }
 
-export default Loading;
+export function LoadingLike() {
+  return (
+    <div className="loading-like-container">
+      <img
+        src="img/loading.svg"
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = "../img/loading.svg";
+        }}
+        alt="img-loading"
+      />
+    </div>
+  );
+}
