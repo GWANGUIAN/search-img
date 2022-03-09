@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./ImageList.css";
 import ImgBox from "../components/ImgBox";
-import Loading from "../components/Loading";
-import LoadingLike from "../components/LoadingLike";
+import { Loading, LoadingLike } from "../components/Loading";
 import getDataList from "../utils/getDataList";
 
 function ImageList({ alertAuth }) {
