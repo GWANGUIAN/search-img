@@ -6,11 +6,11 @@ import { faHeart as like } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as unLike } from "@fortawesome/free-regular-svg-icons";
 
 function ImgBox({ data, getNewData, alertAuth, setIsLoadingLike }) {
-  const submitLike = () => {
+  const submitLike = async() => {
     const token = localStorage.getItem("userAccessToken");
     if (token) {
       setIsLoadingLike(true)
-      axios
+      await axios
         .post(`https://api.unsplash.com/photos/${data.id}/like`, null, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("userAccessToken"),
