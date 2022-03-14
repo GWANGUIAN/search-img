@@ -7,7 +7,6 @@ import { faHeart as unLike } from "@fortawesome/free-regular-svg-icons";
 
 // TODO: 화살표 함수로 변경, data 등 용도를 파악할수 없는 프라퍼티 이름 변경
 function ImgBox({ data, getNewData, alertAuth, setIsLoadingLike }) {
-
   // TODO: submitLike, cancelLike 두 메서드 내용은 post, delete 호출 부분만 다르므로 updateLike 등의 이름으로 변경하여 하나의 메서드로 통합
   // TODO: submitLike, cancelLike 를 부모 컴포넌트에서 prop 으로 내려주고 ImgBox 는 렌더링만 담당하는 것이 보다 직관적
   const submitLike = () => {
