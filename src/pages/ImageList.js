@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
+import axios from 'axios';
 import "./ImageList.css";
-import ImgBox from "../components/ImgBox";
-import { Loading, LoadingLike } from "../components/Loading";
+import ImgData from "../components/ImgData";
+import Loading from "../components/Loading";
 import getDataList from "../utils/getDataList";
 
 function ImageList({ alertAuth }) {
@@ -19,7 +20,43 @@ function ImageList({ alertAuth }) {
   const getNewData = async () => {
     const data = await getDataList();
     setImgData(data);
-    setIsLoadingLike(false)
+    setIsLoadingLike(false);
+  };
+
+  const updateLike = (cancel, id) => {
+    const token = localStorage.getItem("userAccessToken");
+    try {
+      if (token && !cancel) {
+        setIsLoadingLike(true);
+        axios
+          .post(`https://api.unsplash.com/photos/${id}/like`, null, {
+            headers: {
+              Authorization:
+                "Bearer " + localStorage.getItem("userAccessToken"),
+            },
+          })
+          .then(() => {
+            getNewData();
+          });
+      } else if (token && cancel) {
+        setIsLoadingLike(true);
+        axios
+          .delete(`https://api.unsplash.com/photos/${id}/like`, {
+            headers: {
+              Authorization:
+                "Bearer " + localStorage.getItem("userAccessToken"),
+            },
+          })
+          .then(() => {
+            getNewData();
+          });
+      } else {
+        alertAuth();
+      }
+    } catch (err) {
+      console.log(err);
+      setIsLoadingLike(false);
+    }
   };
 
   useEffect(() => {
@@ -29,23 +66,15 @@ function ImageList({ alertAuth }) {
   return (
     <section className="image-list-container">
       {isLoading ? (
-        <Loading />
+        <Loading transparency={false} />
       ) : (
         <div className="box-images">
           {imgData.map((el, id) => {
-            return (
-              <ImgBox
-                alertAuth={alertAuth}
-                getNewData={getNewData}
-                setIsLoadingLike={setIsLoadingLike}
-                data={el}
-                key={id}
-              />
-            );
+            return <ImgData updateLike={updateLike} data={el} key={id} />;
           })}
         </div>
       )}
-      {isLoadingLike && <LoadingLike />}
+      {isLoadingLike && <Loading transparency={true} />}
     </section>
   );
 }
