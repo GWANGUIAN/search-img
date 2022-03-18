@@ -19,13 +19,11 @@ const api = setup({
 
 const getSerachData = async (query, page = 1, forceUpdate = false) => {
   const localToken = localStorage.getItem("userAccessToken") || false;
-
-  // TODO: try catch 처리 필요, if / else 를 사용하지 않고 'clearCacheEntry: forceUpdate' 형태로 변경
-  if (forceUpdate) {
+  try {
     const response = await api.get(
       `/search/photos?query=${query}&page=${page}`,
       {
-        clearCacheEntry: true,
+        clearCacheEntry: forceUpdate,
         headers: {
           Authorization: localToken
             ? "Bearer " + localToken
@@ -34,18 +32,8 @@ const getSerachData = async (query, page = 1, forceUpdate = false) => {
       }
     );
     return response.data;
-  } else {
-    const response = await api.get(
-      `/search/photos?query=${query}&page=${page}`,
-      {
-        headers: {
-          Authorization: localToken
-            ? "Bearer " + localToken
-            : "Client-ID " + process.env.REACT_APP_ACCESS_KEY,
-        },
-      }
-    );
-    return response.data;
+  } catch (err) {
+    console.log(err);
   }
 };
 

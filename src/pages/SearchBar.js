@@ -9,7 +9,7 @@ import useAutoComplete from "../hooks/useAutoComplete";
 function SearchBar({ searchWord, setSearchWord }) {
   const navigate = useNavigate();
   const { word } = useParams();
-  const [autoCompleteData, setData, deleteData] = useAutoComplete();
+  const [autoCompleteData, addData, deleteData] = useAutoComplete();
   const [focus, setFocus] = useState(false);
   const inputRef = useRef();
 
@@ -17,7 +17,7 @@ function SearchBar({ searchWord, setSearchWord }) {
     if (searchWord === "") {
       navigate(`/`);
     } else {
-      setData(searchWord);
+      addData(searchWord);
       setSearchWord(searchWord);
       setFocus(false);
       document.activeElement.blur()
@@ -81,7 +81,7 @@ function SearchBar({ searchWord, setSearchWord }) {
                       className="icon-delete"
                       icon={faXmark}
                       onMouseDown={() => {
-                        deleteData(id);
+                        deleteData(el);
                       }}
                     />
                   </li>

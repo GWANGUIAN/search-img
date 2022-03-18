@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
+import axios from 'axios';
 import { useParams } from "react-router";
 import "./SearchList.css";
-import ImgBox from "../components/ImgBox";
+import ImgData from "../components/ImgData";
 import Paging from "../components/Paging";
-import { Loading, LoadingLike } from "../components/Loading";
+import Loading from "../components/Loading";
 import getSerachData from "../utils/getSearchData";
 
 function SearchList({ alertAuth }) {
@@ -34,6 +35,42 @@ function SearchList({ alertAuth }) {
     setIsLoadingLike(false);
   };
 
+  const updateLike = (cancel, id) => {
+    const token = localStorage.getItem("userAccessToken");
+    try {
+      if (token && !cancel) {
+        setIsLoadingLike(true);
+        axios
+          .post(`https://api.unsplash.com/photos/${id}/like`, null, {
+            headers: {
+              Authorization:
+                "Bearer " + localStorage.getItem("userAccessToken"),
+            },
+          })
+          .then(() => {
+            getNewData();
+          });
+      } else if (token && cancel) {
+        setIsLoadingLike(true);
+        axios
+          .delete(`https://api.unsplash.com/photos/${id}/like`, {
+            headers: {
+              Authorization:
+                "Bearer " + localStorage.getItem("userAccessToken"),
+            },
+          })
+          .then(() => {
+            getNewData();
+          });
+      } else {
+        alertAuth();
+      }
+    } catch (err) {
+      setIsLoadingLike(false)
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     getData();
   }, [word]);
@@ -45,27 +82,19 @@ function SearchList({ alertAuth }) {
   return (
     <section className="search-list-container">
       {isLoading ? (
-        <Loading />
+        <Loading transparency={false} />
       ) : searchData.results.length === 0 ? (
         <div id="text-none">일치하는 이미지가 없습니다.</div>
       ) : (
         <div className="box-images">
           {searchData.results.map((el, id) => {
-            return (
-              <ImgBox
-                alertAuth={alertAuth}
-                getNewData={getNewData}
-                setIsLoadingLike={setIsLoadingLike}
-                data={el}
-                key={id}
-              />
-            );
+            return <ImgData updateLike={updateLike} data={el} key={id} />;
           })}
         </div>
       )}
 
       <Paging page={page} setPage={setPage} count={searchData.total} />
-      {isLoadingLike && <LoadingLike />}
+      {isLoadingLike && <Loading transparency={true} />}
     </section>
   );
 }
